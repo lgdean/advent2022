@@ -7,11 +7,11 @@ cabal-version: 1.12
 name:           haskell-aoc2022
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/haskell-aoc2022#readme>
-homepage:       https://github.com/githubuser/haskell-aoc2022#readme
-bug-reports:    https://github.com/githubuser/haskell-aoc2022/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2022 Author name here
+homepage:       https://github.com/lgdean/advent2022#readme
+bug-reports:    https://github.com/lgdean/advent2022/issues
+author:         Logan Dean
+maintainer:     lgdean@users.noreply.github.com
+copyright:      2022 Logan Dean
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -21,7 +21,8 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/haskell-aoc2022
+  location: https://github.com/lgdean/advent2022
+  subdir: haskell-aoc2022
 
 library
   exposed-modules:

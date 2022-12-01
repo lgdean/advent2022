@@ -1,10 +1,10 @@
 name:                haskell-aoc2022
 version:             0.1.0.0
-github:              "githubuser/haskell-aoc2022"
+github:              "lgdean/advent2022/haskell-aoc2022"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2022 Author name here"
+author:              "Logan Dean"
+maintainer:          "lgdean@users.noreply.github.com"
+copyright:           "2022 Logan Dean"
 
 extra-source-files:
 - README.md
