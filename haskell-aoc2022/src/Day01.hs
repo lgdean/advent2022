@@ -4,6 +4,7 @@ module Day01
       doPart2
     ) where
 
+import Data.List (sort)
 import Data.List.Split (splitOn)
 
 import Lib
@@ -22,4 +23,6 @@ doPart1 input =
 
 doPart2 :: [Char] -> Int
 doPart2 input =
-  0
+  let inputInts = parseCalLists input :: [[Int]]
+      sums = map sum inputInts :: [Int]
+  in sum $ take 3 $ reverse $ sort sums
