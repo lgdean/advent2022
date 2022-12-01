@@ -5,15 +5,12 @@ module Day01
     ) where
 
 import Data.List (sort)
-import Data.List.Split (splitOn)
 
 import Lib
 
 parseCalLists :: String -> [[Int]]
 parseCalLists input =
-  let allLines = lines input
-      chunks = splitOn [""] allLines
-  in map (map read) chunks
+  parseChunks (map read) input
 
 doPart1 :: [Char] -> Int
 doPart1 input =

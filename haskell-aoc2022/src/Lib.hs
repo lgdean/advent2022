@@ -1,13 +1,22 @@
 module Lib
     ( readIntLines
+    , parseChunks
     , fixedPoint
     , bin2Int
     ) where
 
 import Data.Char(digitToInt)
+import Data.List.Split (splitOn)
 
 readIntLines :: [Char] -> [Int]
 readIntLines = map read . lines
+
+-- parse chunks of an input file, separated by empty lines
+parseChunks :: ([String] -> a) -> String -> [a]
+parseChunks chunkParser input =
+  let allLines = lines input
+      chunks = splitOn [""] allLines
+  in map chunkParser chunks
 
 fixedPoint :: Eq a => (a -> a) -> a -> a
 fixedPoint f initState =
