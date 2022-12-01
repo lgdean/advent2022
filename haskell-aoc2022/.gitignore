@@ -1,3 +1,4 @@
 .stack-work/
 *~
 out/
+haskell-aoc2022.cabal
