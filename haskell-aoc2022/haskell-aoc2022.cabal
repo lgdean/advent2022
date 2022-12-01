@@ -59,4 +59,5 @@ test-suite haskell-aoc2022-test
   build-depends:
       base >=4.7 && <5
     , haskell-aoc2022
+    , hspec
   default-language: Haskell2010
