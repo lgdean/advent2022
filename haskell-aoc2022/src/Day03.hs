@@ -13,12 +13,6 @@ commonItem lst =
   let (f,s) = splitAt (length lst `div` 2) lst
   in head $ allCommon (sort f) (sort s)
 
-doPart1 :: [Char] -> Int
-doPart1 input =
-  let allLines = lines input
-      commonItems = map commonItem allLines
-  in sum $ map priority commonItems
-
 -- assumes sorted lists
 allCommon :: Ord a => [a] -> [a] -> [a]
 allCommon _ [] = []
@@ -27,6 +21,12 @@ allCommon (x:xs) (y:ys)
   | x==y = x : allCommon xs ys
   | x < y = allCommon xs (y:ys)
   | otherwise = allCommon (x:xs) ys
+
+doPart1 :: [Char] -> Int
+doPart1 input =
+  let allLines = lines input
+      commonItems = map commonItem allLines
+  in sum $ map priority commonItems
 
 doPart2 :: [Char] -> Int
 doPart2 input =
