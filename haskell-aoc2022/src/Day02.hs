@@ -4,6 +4,8 @@ module Day02
       doPart2
     ) where
 
+-- Is this better than hard-coding all 9 possibilities for each Part? IDK.
+
 data Play = Rock | Paper | Scissors deriving Eq
 
 scoreRound :: (Play, Play) -> Int
@@ -27,6 +29,11 @@ beats Rock Scissors = True
 beats Scissors Paper = True
 beats _ _ = False
 
+shapeToWinOver :: Play -> Play
+shapeToWinOver Rock = Paper
+shapeToWinOver Paper = Scissors
+shapeToWinOver Scissors = Rock
+
 doPart1 :: [Char] -> Int
 doPart1 input =
   let allLines = lines input
@@ -35,7 +42,18 @@ doPart1 input =
 
 doPart2 :: [Char] -> Int
 doPart2 input =
-  0
+  let allLines = lines input
+      pairs = map parseLinePart2 allLines
+  in sum $ map scoreRound pairs
+
+parseLinePart2 :: String -> (Play, Play)
+parseLinePart2 line =
+  case words line of
+    [] -> error "no words in line!"
+    [a,"Y"] -> (parsePlay a, parsePlay a)
+    [a,"Z"] -> (parsePlay a, shapeToWinOver (parsePlay a))
+    [a,"X"] -> (parsePlay a, shapeToWinOver (shapeToWinOver (parsePlay a)))
+    whoops -> error ("line contains surprising parts: " ++ show whoops)
 
 parseLine :: String -> (Play, Play)
 parseLine line =

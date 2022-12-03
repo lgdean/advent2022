@@ -23,5 +23,4 @@ spec = do
 
     it "can solve Part 2" $ do
       input <- readFile "inputs/day02"
-      doPart2 input `shouldBe` 0
-      pending
+      doPart2 input `shouldBe` 12429
