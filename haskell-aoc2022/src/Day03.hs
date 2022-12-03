@@ -20,9 +20,21 @@ doPart1 input =
       commonItems = map commonItem allLines
   in sum $ map priority commonItems
 
+-- assumes sorted lists
+allCommon :: Ord a => [a] -> [a] -> [a]
+allCommon _ [] = []
+allCommon [] _ = []
+allCommon (x:xs) (y:ys)
+  | x==y = x : allCommon xs ys
+  | x < y = allCommon xs (y:ys)
+  | otherwise = allCommon (x:xs) ys
+
 doPart2 :: [Char] -> Int
 doPart2 input =
-  0
+  let elfGroups = chunksOf 3 $ lines input
+      commonGroupItem elves = foldl1 allCommon $ map sort elves
+      commonItems = map commonGroupItem elfGroups
+  in sum $ map (priority . head) commonItems
 
 priority :: Char -> Int
 priority ch
