@@ -10,7 +10,7 @@ import Data.List.Split(chunksOf)
 
 commonItem :: Ord a => [a] -> a
 commonItem lst =
-  let [f,s] = chunksOf (length lst `div` 2) lst
+  let (f,s) = splitAt (length lst `div` 2) lst
   in head $ allCommon (sort f) (sort s)
 
 doPart1 :: [Char] -> Int
