@@ -10,8 +10,7 @@ spec = do
   describe "Part 1" $ do
     it "can handle given example" $ do
       input <- readFile "inputs/day03-example"
---      doPart1 input `shouldBe` 157
-      pendingWith "no idea why this didn't work"
+      doPart1 input `shouldBe` 157
 
     it "can solve Part 1" $ do
       input <- readFile "inputs/day03"
