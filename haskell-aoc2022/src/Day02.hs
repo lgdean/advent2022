@@ -19,15 +19,9 @@ scoreShape Scissors = 3
 scoreResult :: (Play, Play) -> Int
 scoreResult (opp, mine)
   | opp == mine = 3
-  | beats opp mine = 0
-  | beats mine opp = 6
+  | opp == shapeToWinOver mine = 0
+  | mine == shapeToWinOver opp = 6
   | otherwise = error "fix yer code"
-
-beats :: Play -> Play -> Bool
-beats Paper Rock = True
-beats Rock Scissors = True
-beats Scissors Paper = True
-beats _ _ = False
 
 shapeToWinOver :: Play -> Play
 shapeToWinOver Rock = Paper
