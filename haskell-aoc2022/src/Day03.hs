@@ -11,8 +11,7 @@ import Data.List.Split(chunksOf)
 commonItem :: Ord a => [a] -> a
 commonItem lst =
   let [f,s] = chunksOf ((length lst) `div` 2) lst
-      findIt (x:xs) (y:ys) = if x==y then x else (if x<y then findIt xs (y:ys) else findIt (x:xs) ys)
-  in findIt (sort f) (sort s)
+  in head $ allCommon (sort f) (sort s)
 
 doPart1 :: [Char] -> Int
 doPart1 input =
