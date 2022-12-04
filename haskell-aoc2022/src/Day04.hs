@@ -20,9 +20,19 @@ doPart1 input =
       allPairs = map parseSections allLines
   in length $ filter (uncurry eitherFullyContains) allPairs
 
+fullyBefore :: (Int, Int) -> (Int, Int) -> Bool
+fullyBefore (_, oneUpper) (otherLower, _) =
+  oneUpper < otherLower
+
+noOverlap :: (Int, Int) -> (Int, Int) -> Bool
+noOverlap one other =
+  fullyBefore one other || fullyBefore other one
+
 doPart2 :: [Char] -> Int
 doPart2 input =
-  0
+  let allLines = lines input
+      allPairs = map parseSections allLines
+  in length $ filter (not . uncurry noOverlap) allPairs
 
 parseSections :: String -> ((Int, Int), (Int, Int))
 parseSections line =
