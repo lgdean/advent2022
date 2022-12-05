@@ -17,7 +17,8 @@ doMove (howMany, src, dest) curr =
 
 addCrates :: [a] -> [a] -> [a]
 addCrates [] old = old
-addCrates (x:xs) old = addCrates xs (x:old)
+--addCrates (x:xs) old = addCrates xs (x:old)
+addCrates new old = new ++ old
 
 doPart1 :: [(Int, [Char])] -> [Char] -> [Char]
 doPart1 startState input =
@@ -27,9 +28,8 @@ doPart1 startState input =
       cratesEnd = foldl (flip doMove) cratesStart moves
   in map head $ Map.elems cratesEnd
 
-doPart2 :: [Char] -> Int
-doPart2 input =
-  0
+doPart2 :: [(Int, [Char])] -> [Char] -> [Char]
+doPart2 = doPart1
 
 parseMove :: String -> Move
 parseMove move =
