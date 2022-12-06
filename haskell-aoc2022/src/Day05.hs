@@ -17,7 +17,8 @@ doMove (howMany, src, dest) curr =
 
 addCrates :: [a] -> [a] -> [a]
 --addCrates new old = foldl (flip (:)) old new -- Part 1
-addCrates new old = new ++ old
+--addCrates = (++) . reverse                   -- Part 1, perhaps more clear
+addCrates = (++)
 
 doPart1 :: [(Int, [Char])] -> [Char] -> [Char]
 doPart1 startState input =
