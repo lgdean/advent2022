@@ -12,12 +12,12 @@ doPart1 = findMarker 4
 
 findMarker :: Ord a => Int -> [a] -> Int
 findMarker howMany input =
-  let findInner pos rest =
-        let first4 = take howMany rest
-        in if size (Set.fromList first4) == howMany
-           then pos
-           else findInner (pos+1) (tail rest)
-  in findInner howMany input
+  findInner howMany input
+  where findInner pos rest =
+          let first4 = take howMany rest
+          in if size (Set.fromList first4) == howMany
+             then pos
+             else findInner (pos+1) (tail rest)
 
 doPart2 :: [Char] -> Int
 doPart2 = findMarker 14
