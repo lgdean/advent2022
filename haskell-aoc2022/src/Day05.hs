@@ -16,8 +16,7 @@ doMove (howMany, src, dest) curr =
   in Map.adjust (addCrates toMove) dest $ Map.insert src toKeep curr
 
 addCrates :: [a] -> [a] -> [a]
-addCrates [] old = old
---addCrates (x:xs) old = addCrates xs (x:old)
+--addCrates new old = foldl (flip (:)) old new -- Part 1
 addCrates new old = new ++ old
 
 doPart1 :: [(Int, [Char])] -> [Char] -> [Char]
