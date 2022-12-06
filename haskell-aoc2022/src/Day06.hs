@@ -19,10 +19,4 @@ findMarker howMany input =
   in part1Inner howMany input
 
 doPart2 :: [Char] -> Int
-doPart2 = part2Inner 14
-
-part2Inner :: Ord a => Int -> [a] -> Int
-part2Inner pos input =
-  let first4 = take 14 input
-      set4 = Set.fromList first4
-  in if Set.size set4 == 14 then pos else part2Inner (pos+1) (tail input)
+doPart2 = findMarker 14
