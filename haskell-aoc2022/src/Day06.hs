@@ -15,7 +15,9 @@ findMarker howMany input =
   let findInner pos rest =
         let first4 = take howMany rest
             set4 = Set.fromList first4
-        in if Set.size set4 == howMany then pos else findInner (pos+1) (tail rest)
+        in if Set.size set4 == howMany
+           then pos
+           else findInner (pos+1) (tail rest)
   in findInner howMany input
 
 doPart2 :: [Char] -> Int
