@@ -17,9 +17,9 @@ spec = do
       doPart1 input `shouldBe` 1141028
 
   describe "Part 2" $ do
-    it "can handle first given example" $ do
-      pending
-      doPart2 "mjqjpqmgbljsphdztnvjfqwrcgsmlb" `shouldBe` undefined
+    it "can handle given example" $ do
+      input <- readFile "inputs/day07-example"
+      doPart2 input `shouldBe` 24933642
 
     it "can solve Part 2" $ do
       pending
