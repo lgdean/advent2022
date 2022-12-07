@@ -43,7 +43,15 @@ doPart1 input =
   in sum $ map dirSize relevantDirs
 
 doPart2 :: [Char] -> Int
-doPart2 input = 0
+doPart2 input =
+  let listing = parseListings [] Map.empty $ lines input
+      rootDir = dirFromListing listing
+      totalDiskSpace = 70000000
+      totalUsed = dirSize rootDir
+      currentFree = totalDiskSpace - totalUsed
+      needToFreeUp = 30000000 - currentFree
+      relevantDirs = findSubDirsWhere (\d -> dirSize d >= needToFreeUp) rootDir
+  in minimum (map dirSize relevantDirs)
 
 -- let's assume we never cd into a dir that does not exist
 parseListings :: DirPath -> ListingResult -> [String] -> ListingResult
