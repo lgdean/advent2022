@@ -35,12 +35,18 @@ keepUpWith (hx, hy) (tx, ty)
   | hy < ty = (tx, ty-1)
   | otherwise = error "bug in logic, oh no"
 
+-- surely there is a higher-order function for this concept!
+allKeepUp :: (Int, Int) -> [(Int, Int)] -> [(Int, Int)]
+allKeepUp _ [] = []
+allKeepUp prev (next:rest) = newNext : allKeepUp newNext rest
+  where newNext = keepUpWith prev next
+
 doMove :: Dir -> RopePos -> RopePos
 doMove _ [] = error "cannot handle empty rope"
-doMove dir [initHead, initTail] =
+doMove dir (initHead: rest) =
   let newHead = moveHead dir initHead
-      newTail = keepUpWith newHead initTail
-  in [newHead, newTail]
+      newTails = allKeepUp newHead rest
+  in newHead : newTails
 
 doPart1 :: String -> Int
 doPart1 input =
@@ -51,7 +57,12 @@ doPart1 input =
   in Set.size $ Set.fromList allTails
 
 doPart2 :: String -> Int
-doPart2 _ = 1
+doPart2 input =
+  let allLines = lines input
+      allMoves = concatMap parseLine allLines
+      allRopePositions = scanl (flip doMove) (replicate 10 (0,0)) allMoves
+      allTails = map last allRopePositions
+  in Set.size $ Set.fromList allTails
 
 parseLine :: String -> [Dir]
 parseLine line =

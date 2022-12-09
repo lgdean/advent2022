@@ -22,11 +22,9 @@ spec = do
       doPart2 input `shouldBe` 1
 
     it "can handle larger given example" $ do
-      pending
       input <- readFile "inputs/day09-larger-example"
       doPart2 input `shouldBe` 36
 
     it "can solve Part 2" $ do
-      pending
       input <- readFile "inputs/day09"
-      doPart2 input `shouldBe` 0
+      doPart2 input `shouldBe` 2493
