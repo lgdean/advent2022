@@ -35,17 +35,11 @@ keepUpWith (hx, hy) (tx, ty)
   | hy < ty = (tx, ty-1)
   | otherwise = error "bug in logic, oh no"
 
--- surely there is a higher-order function for this concept!
-allKeepUp :: (Int, Int) -> [(Int, Int)] -> [(Int, Int)]
-allKeepUp _ [] = []
-allKeepUp prev (next:rest) = newNext : allKeepUp newNext rest
-  where newNext = keepUpWith prev next
-
 doMove :: Dir -> RopePos -> RopePos
 doMove _ [] = error "cannot handle empty rope"
 doMove dir (initHead: rest) =
   let newHead = moveHead dir initHead
-      newTails = allKeepUp newHead rest
+      newTails = zipWith keepUpWith (newHead : newTails) rest
   in newHead : newTails
 
 doPart1 :: String -> Int
