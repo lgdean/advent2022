@@ -17,10 +17,14 @@ spec = do
       doPart1 input `shouldBe` 6087
 
   describe "Part 2" $ do
-    it "can handle given example" $ do
-      pending
+    it "can handle first given example" $ do
       input <- readFile "inputs/day09-example"
-      doPart2 input `shouldBe` undefined
+      doPart2 input `shouldBe` 1
+
+    it "can handle larger given example" $ do
+      pending
+      input <- readFile "inputs/day09-larger-example"
+      doPart2 input `shouldBe` 36
 
     it "can solve Part 2" $ do
       pending

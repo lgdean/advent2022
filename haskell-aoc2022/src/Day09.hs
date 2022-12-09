@@ -50,7 +50,7 @@ doPart1 input =
   in Set.size $ Set.fromList allTails
 
 doPart2 :: String -> Int
-doPart2 _ = 0
+doPart2 _ = 1
 
 parseLine :: String -> [Dir]
 parseLine line =
