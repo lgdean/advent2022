@@ -8,7 +8,7 @@ import Data.Set ()
 import qualified Data.Set as Set
 
 data Dir = Up | Down | Lef | Righ
-type RopePos = ((Int, Int), (Int, Int))
+type RopePos = [(Int, Int)]
 
 moveHead :: Dir -> (Int, Int) -> (Int, Int)
 moveHead Up (x,y) = (x,y+1)
@@ -36,17 +36,18 @@ keepUpWith (hx, hy) (tx, ty)
   | otherwise = error "bug in logic, oh no"
 
 doMove :: Dir -> RopePos -> RopePos
-doMove dir (initHead, initTail) =
+doMove _ [] = error "cannot handle empty rope"
+doMove dir [initHead, initTail] =
   let newHead = moveHead dir initHead
       newTail = keepUpWith newHead initTail
-  in (newHead, newTail)
+  in [newHead, newTail]
 
 doPart1 :: String -> Int
 doPart1 input =
   let allLines = lines input
       allMoves = concatMap parseLine allLines
-      allRopePositions = scanl (flip doMove) ((0,0),(0,0)) allMoves
-      allTails = map snd allRopePositions
+      allRopePositions = scanl (flip doMove) [(0,0),(0,0)] allMoves
+      allTails = map last allRopePositions
   in Set.size $ Set.fromList allTails
 
 doPart2 :: String -> Int
