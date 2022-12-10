@@ -42,21 +42,19 @@ doMove dir (initHead: rest) =
       newTails = zipWith keepUpWith (newHead : newTails) rest
   in newHead : newTails
 
-doPart1 :: String -> Int
-doPart1 input =
+doRopeMovePuzzle :: Int -> String -> Int
+doRopeMovePuzzle nKnots input =
   let allLines = lines input
       allMoves = concatMap parseLine allLines
-      allRopePositions = scanl (flip doMove) [(0,0),(0,0)] allMoves
+      allRopePositions = scanl (flip doMove) (replicate nKnots (0,0)) allMoves
       allTails = map last allRopePositions
   in Set.size $ Set.fromList allTails
 
+doPart1 :: String -> Int
+doPart1 = doRopeMovePuzzle 2
+
 doPart2 :: String -> Int
-doPart2 input =
-  let allLines = lines input
-      allMoves = concatMap parseLine allLines
-      allRopePositions = scanl (flip doMove) (replicate 10 (0,0)) allMoves
-      allTails = map last allRopePositions
-  in Set.size $ Set.fromList allTails
+doPart2 = doRopeMovePuzzle 10
 
 parseLine :: String -> [Dir]
 parseLine line =
