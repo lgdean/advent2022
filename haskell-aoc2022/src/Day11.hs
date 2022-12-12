@@ -13,11 +13,11 @@ import Debug.Trace (trace)
 -- the puzzle input has 36 total items, so lists may work fine for the queues
 
 data Monkey = Monkey { name :: Int
-                     , op :: Int -> Int
-                     , test :: Int -> Bool
+                     , op :: WorryLevel -> WorryLevel
+                     , test :: WorryLevel -> Bool
                      , testResults :: (Int, Int)
                      }
-type WorryLevel = Int -- same thing as an item, for now
+type WorryLevel = Integer -- same thing as an item, for now
 
 -- returns every throw that happens in this round
 doRound :: [Monkey] -> [[WorryLevel]] -> [((Int, Int), WorryLevel)]
@@ -43,11 +43,12 @@ doTurn :: Monkey -> [WorryLevel] -> [((Int, Int), WorryLevel)]
 doTurn monkey =
   map inspect
   where inspect worry =
-          let divided = op monkey worry `div` 3
+          let operated = op monkey worry
+              divided = operated `div` 3
               throwTo = if test monkey divided then fst $ testResults monkey else snd $ testResults monkey
           in ((name monkey, throwTo), divided)
 
-doPart1 :: [Monkey] -> [[WorryLevel]] -> Int
+doPart1 :: [Monkey] -> [[WorryLevel]] -> Integer
 doPart1 monkeys startItems =
   let firstRoundResult = doRound monkeys startItems :: [((Int, Int), WorryLevel)]
       unhandledThrows roundResult = filter (not . alreadyHandled) roundResult :: [((Int, Int), WorryLevel)]
@@ -55,7 +56,7 @@ doPart1 monkeys startItems =
       myDoRound = doRound monkeys . itemsForMonkeys . unhandledThrows :: [((Int, Int), WorryLevel)] -> [((Int, Int), WorryLevel)]
       allResults = take 20 $ iterate myDoRound firstRoundResult
       throwers = group $ sort $ map whoThrew $ concat allResults
-      howMany = map length throwers
+      howMany = map (fromIntegral . length) throwers
   in product $ take 2 $ reverse $ sort howMany
 
 doPart2 :: String -> Int
