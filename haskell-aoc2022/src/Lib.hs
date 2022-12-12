@@ -3,6 +3,7 @@ module Lib
     , parseChunks
     , fixedPoint
     , bin2Int
+    , divisibleBy
     ) where
 
 import Data.Char(digitToInt)
@@ -25,3 +26,6 @@ fixedPoint f initState =
 
 bin2Int :: String -> Int
 bin2Int str = foldl (\acc n -> acc*2+n) 0 (map digitToInt str)
+
+divisibleBy :: Int -> Int -> Bool
+divisibleBy candidate other = candidate `mod` other == 0
