@@ -45,7 +45,7 @@ spec = do
                        , [89]
                        , [70, 59, 63]
                        ]
-      doPart1 monkeys startItems `shouldBe` 0
+      doPart1 monkeys startItems `shouldBe` 54036
 
   describe "Part 2" $ do
     it "can handle given example" $ do

@@ -19,14 +19,12 @@ data Monkey = Monkey { name :: Int
                      }
 type WorryLevel = Int -- same thing as an item, for now
 
--- returns every throw that happens in this round; TODO handle all monkeys!
+-- returns every throw that happens in this round
 doRound :: [Monkey] -> [[WorryLevel]] -> [((Int, Int), WorryLevel)]
 doRound monkeys items =
-  let firstTurnThrows = doTurn (monkeys !! 0) (items !! 0) ++ map snd (filter ((== 0) . snd . fst) [])
-      secondTurnThrows = doTurn (monkeys !! 1) $ (items !! 1) ++ map snd (filter ((== 1) . snd . fst) firstTurnThrows)
-      thirdTurnThrows = doTurn (monkeys !! 2) $ (items !! 2) ++ map snd (filter ((== 2) . snd . fst) (firstTurnThrows++secondTurnThrows))
-      fourthTurnThrows = doTurn (monkeys !! 3) $ (items !! 3) ++ map snd (filter ((== 3) . snd . fst) (firstTurnThrows++secondTurnThrows++thirdTurnThrows))
-  in firstTurnThrows ++ secondTurnThrows ++ thirdTurnThrows ++ fourthTurnThrows
+  let doNextTurn throwsSoFar (monkey, startItems)
+        = throwsSoFar ++ doTurn monkey (startItems ++ map snd (filter (thrownTo monkey) throwsSoFar))
+  in foldl doNextTurn [] (zip monkeys items)
 
 thrownTo :: Monkey -> ((Int, Int), WorryLevel) -> Bool
 thrownTo Monkey {name=n} ((_, to), _) = n == to
