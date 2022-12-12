@@ -39,7 +39,8 @@ searchUntil :: Square -> Map (Int, Int) Char -> Map Square Int -> Int -> [Square
 searchUntil dest grid shortestTo currN pathsSoFar =
   let candidates = Set.fromList $ concatMap (allOneStepTo grid) pathsSoFar
       notCycling = Set.filter (\p -> Map.findWithDefault 999999 p shortestTo > currN) candidates
-      reachedDest = any (\p -> p == dest) notCycling
+      reachedDest = any (\p -> snd p == snd dest) notCycling -- Part 2
+--      reachedDest = any (\p -> p == dest) notCycling -- Part 1
   in if reachedDest
      then currN
      else searchUntil dest grid (foldl (\m k -> Map.insert k currN m) shortestTo notCycling) (succ currN) $ Set.toList notCycling
