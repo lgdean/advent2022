@@ -5,9 +5,8 @@ module Day13
     ) where
 
 import Data.Char (isDigit)
-import Data.Set ()
-
-import Debug.Trace (trace)
+import Data.List (elemIndex, sort)
+import Data.Maybe (catMaybes)
 
 import Lib (parseChunks)
 
@@ -36,7 +35,15 @@ doPart1 input =
   in answer
 
 doPart2 :: String -> Int
-doPart2 _ = 0
+doPart2 input =
+  let parsedPairs = parseChunks parsePackets input
+      asLists = map (\(a,b) -> [a,b]) parsedPairs
+      dividerPackets = map (fst . parseMyList) ["[[2]]", "[[6]]"]
+      allPackets = concat (dividerPackets : asLists)
+      sorted = sort allPackets
+      dividerIndices = map (`elemIndex` sorted) dividerPackets
+      answer = product $ map succ $ catMaybes dividerIndices
+  in answer
 
 parsePackets :: [String] -> (Value, Value)
 parsePackets [one, other] =
