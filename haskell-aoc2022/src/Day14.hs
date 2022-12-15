@@ -61,8 +61,25 @@ doPart1 input =
   in Map.size endMap - Map.size blockMap
 
 doPart2 :: String -> Int
-doPart2 _ =
-  0
+doPart2 input =
+  let allLines = lines input
+      allPaths = map parsePath allLines
+      blockMap = foldl blockPath Map.empty allPaths
+      maxY = maximum $ map snd $ Map.keys blockMap
+      floorY = maxY+2
+      madeUpXBound = 2*floorY
+      biggerBlockMap = blockLine blockMap ((500 - madeUpXBound, floorY), (500 + madeUpXBound, floorY))
+      endMap = fallUntilSourceBlocked (500,0) floorY biggerBlockMap
+  in Map.size endMap - Map.size biggerBlockMap
+
+fallUntilSourceBlocked :: Tile -> Int -> BlockMap -> BlockMap
+fallUntilSourceBlocked startPos maxY blockMap =
+  if startPos `member` blockMap
+  then blockMap
+  else case comeToRest startPos maxY blockMap of
+    Nothing -> error "surprise outcome I think"
+    Just landingPos -> fallUntilSourceBlocked startPos maxY $ Map.insert landingPos True blockMap
+
 
 parsePath :: String -> [Tile]
 parsePath input =
