@@ -20,7 +20,7 @@ ruledOutBy rowY (sensorX, sensorY) maxDist =
       diffX = maxDist - diffY
   in
     if diffX < 0
-    then sensorX *=* sensorY -- empty Range
+    then sensorX *=* sensorX -- empty Range
     else (sensorX - diffX) +=+ (sensorX + diffX)
 
 doPart1 :: Int -> String -> Int
