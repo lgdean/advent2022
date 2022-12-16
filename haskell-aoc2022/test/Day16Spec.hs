@@ -20,7 +20,7 @@ spec = do
     it "can handle given example" $ do
       pending
       input <- readFile "inputs/day16-example"
-      doPart2 input `shouldBe` undefined
+      doPart2 input `shouldBe` 1707
 
     it "can solve Part 2" $ do
       pending
