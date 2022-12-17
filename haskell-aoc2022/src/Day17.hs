@@ -70,12 +70,12 @@ fallOne prev (shape, pos) =
   in if stopped then Nothing else Just newPos
 
 fallDown :: Int -> [(Shape, Coord)] -> (Shape, Coord) -> [Jet] -> (Coord, [Jet])
-fallDown currTop prev (shape, pos) jets =
+fallDown lowerBound prev (shape, pos) jets =
   let pushResult = push (head jets) prev shape pos
       fallResult = fallOne prev (shape, pushResult)
   in case fallResult of
     Nothing -> (pushResult, tail jets)
-    Just result -> fallDown currTop prev (shape, result) (tail jets)
+    Just result -> fallDown lowerBound prev (shape, result) (tail jets)
 
 allFallDown :: Int -> [(Shape, Coord)] -> [Jet] -> [Shape] -> Int
 allFallDown currTop _ _ [] = currTop
