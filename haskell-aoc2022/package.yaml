@@ -26,6 +26,7 @@ dependencies:
 - range
 - split
 - text
+- unordered-containers
 
 ghc-options:
 - -Wall
