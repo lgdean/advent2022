@@ -77,13 +77,14 @@ fallDown lowerBound prev (shape, pos) jets =
     Nothing -> (pushResult, tail jets)
     Just result -> fallDown lowerBound prev (shape, result) (tail jets)
 
-allFallDown :: Int -> [(Shape, Coord)] -> [Jet] -> [Shape] -> Int
-allFallDown currTop _ _ [] = currTop
-allFallDown currTop prevRocks jets (rock:restRocks) =
+allFallDown :: Int -> Int -> [(Shape, Coord)] -> [Jet] -> [Shape] -> Int
+allFallDown currTop _ _ _ [] = currTop
+allFallDown currTop currLower prevRocks jets (rock:restRocks) =
   let initPos = (2, 3+currTop)
       (rockRestingPos, unusedJets) = fallDown currTop prevRocks (rock, initPos) jets :: (Coord, [Jet])
       newTop = max currTop (topOf rock rockRestingPos + 1)
-  in allFallDown newTop ((rock, rockRestingPos):prevRocks) unusedJets restRocks
+      newLower = currLower
+  in allFallDown newTop newLower ((rock, rockRestingPos):prevRocks) unusedJets restRocks
 
 
 doPart1 :: String -> Int
@@ -92,7 +93,7 @@ doPart1 input =
       jets = cycle $ parseLine $ head allLines
       rocks = take 2022 $ cycle [Dash, Plus, BackwardL, I, Square]
       initTop = 0
-  in allFallDown initTop [] jets rocks
+  in allFallDown initTop initTop [] jets rocks
 
 doPart2 :: String -> Int
 doPart2 _ = 0
