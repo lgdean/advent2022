@@ -41,7 +41,7 @@ pathsOfDuration distMap flowMap minsLeft (v:prev) totalSoFar
   | otherwise =
       let dests = Map.mapKeys snd $ Map.filterWithKey (\(f,t) _ -> f == v && t `notElem` prev) distMap
           timeLeft (_, dist) = minsLeft - (dist + 1) -- we always open the valve on first visit; if not, that's a different path
-          pressureRelease (valve, dist) = if valve `notElem` prev then (flowMap ! valve) * max 0 (timeLeft (valve, dist)) else 0
+          pressureRelease (valve, dist) = (flowMap ! valve) * max 0 (timeLeft (valve, dist))
           pathsFrom dest = pathsOfDuration distMap flowMap (timeLeft dest) (fst dest:v:prev) (pressureRelease dest + totalSoFar)
       in
         if null dests
