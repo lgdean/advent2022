@@ -7,7 +7,8 @@ module Day17
       doPart2
     ) where
 
-import Data.List (intersect)
+import Data.Set (Set, intersection)
+import qualified Data.Set as Set
 
 -- for today, coordinates start at 0,0 and go right (+x) and up (+y) from there.
 -- the position of a shape is defined from bottom and left edges.
@@ -28,24 +29,28 @@ hitsRight BackwardL (x,_) = (chamberWidth - 3) < x
 hitsRight I (x,_) = (chamberWidth - 1) < x
 hitsRight Square (x,_) = (chamberWidth - 2) < x
 
-relativeCoords :: Shape -> [Coord]
-relativeCoords Dash = [(x,0) | x <- [0..3]]
-relativeCoords Plus = [(0,1), (1,0), (1,1), (1,2), (2,1)]
-relativeCoords BackwardL = [(0,0), (1,0), (2,0), (2,1), (2,2)]
-relativeCoords I = [(0,y) | y <- [0..3]]
-relativeCoords Square = [(x,y) | x <- [0,1], y <- [0,1]]
+relativeCoords :: Shape -> Set Coord
+relativeCoords Dash = Set.fromList [(x,0) | x <- [0..3]]
+relativeCoords Plus = Set.fromList [(0,1), (1,0), (1,1), (1,2), (2,1)]
+relativeCoords BackwardL = Set.fromList [(0,0), (1,0), (2,0), (2,1), (2,2)]
+relativeCoords I = Set.fromList [(0,y) | y <- [0..3]]
+relativeCoords Square = Set.fromList [(x,y) | x <- [0,1], y <- [0,1]]
 
 overlap :: (Shape, Coord) -> (Shape, Coord) -> Bool
 overlap (shapeA, posA) (shapeB, posB) =
-  not $ null $ intersect (allCoords shapeA posA) (allCoords shapeB posB)
+  not $ null $ intersection (allCoords shapeA posA) (allCoords shapeB posB)
+
+anyOverlap :: (Shape, Coord) -> [(Shape, Coord)] -> Bool
+anyOverlap (shape, pos) prev =
+  not $ null $ intersection (allCoords shape pos) (Set.unions $ map (uncurry allCoords) prev)
 
 topOf :: Shape -> Coord -> Int
 topOf shape pos =
-  maximum $ map snd $ allCoords shape pos
+  maximum $ Set.map snd $ allCoords shape pos -- or could hard-code by shape!
 
-allCoords :: Shape -> Coord -> [Coord]
+allCoords :: Shape -> Coord -> Set Coord
 allCoords shape pos =
-  map (add pos) (relativeCoords shape)
+  Set.map (add pos) (relativeCoords shape)
 
 add :: Coord -> Coord -> Coord
 add (a,b) (x,y) = (a+x, b+y)
@@ -59,14 +64,14 @@ push dir prev shape pos
         JetLeft -> hitsLeft
         JetRight -> hitsRight
     nextPos = add pos (if dir == JetLeft then (-1,0) else (1,0)) -- clean up later
-    overlaps = any (overlap (shape, nextPos)) prev -- try naive way first
+    overlaps = anyOverlap (shape, nextPos) prev -- try naive way first
     stopped = hitsWall shape nextPos || overlaps
     result = if stopped then pos else nextPos
 
 fallOne :: [(Shape, Coord)] -> (Shape, Coord) -> Maybe Coord
 fallOne prev (shape, pos) =
   let newPos@(_,y) = add pos (0,-1)
-      stopped = y < 0 || any (overlap (shape, newPos)) prev -- try naive way first
+      stopped = y < 0 || anyOverlap (shape, newPos) prev -- try naive way first
   in if stopped then Nothing else Just newPos
 
 fallDown :: Int -> [(Shape, Coord)] -> (Shape, Coord) -> [Jet] -> (Coord, [Jet])
@@ -95,9 +100,13 @@ doPart1 input =
       initTop = 0
   in allFallDown initTop initTop [] jets rocks
 
-doPart2 :: String -> Int
-doPart2 _ = 0
-
+doPart2 :: Int -> String -> Int
+doPart2 howMany input =
+  let allLines = lines input
+      jets = cycle $ parseLine $ head allLines
+      rocks = take howMany $ cycle [Dash, Plus, BackwardL, I, Square]
+      initTop = 0
+  in allFallDown initTop initTop [] jets rocks
 
 parseLine :: String -> [Jet]
 parseLine = map parseJet
