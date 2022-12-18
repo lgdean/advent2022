@@ -34,12 +34,11 @@ nAdjacentThisWay cubes =
 sameXY :: Cube -> Cube -> Bool
 sameXY (a,b,_) (x,y,_) = (a,b) == (x,y)
 
--- write it the clever way later (or not)
 nAdjacent :: [Int] -> Int
 nAdjacent [] = 0
-nAdjacent [_] = 0
-nAdjacent (a:b:rest) = if a+1==b then 1+total else total
-  where total = nAdjacent (b:rest)
+nAdjacent xs =
+  let p a b = a+1 == b
+  in length $ filter id $ zipWith p xs (tail xs)
 
 doPart1 :: String -> Int
 doPart1 input =
