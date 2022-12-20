@@ -30,15 +30,19 @@ readAndMixFile input =
       numbers = map read allLines :: [Int]
   in mixFile numbers
 
+answerFrom :: [Int] -> Int
+answerFrom mixedFile =
+  let indices = [1000, 2000, 3000]
+      cycledMix = dropWhile (/= 0) $ cycle mixedFile
+      values = map (cycledMix !!) indices
+  in sum values
+
 doPart1 :: String -> Int
 doPart1 input =
   let allLines = lines input
       numbers = map read allLines :: [Int]
       firstMix = mixFile numbers
-      indices = [1000, 2000, 3000]
-      cycledMix = dropWhile (/= 0) $ cycle firstMix
-      values = map (cycledMix !!) indices
-  in sum values
+  in answerFrom firstMix
 
 doPart2 :: String -> Int
 doPart2 input =
