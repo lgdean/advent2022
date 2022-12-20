@@ -5,14 +5,35 @@ module Day19
     ) where
 
 import Data.List.Split (splitOn)
-import Data.Map (Map)
+import Data.Map (Map, (!))
 import qualified Data.Map.Strict as Map
+import Data.Tuple (swap)
 
 import Debug.Trace (trace)
 
 data Resource = Ore | Clay | Obsidian | Geode deriving (Eq, Ord, Show)
+allResources = [Ore, Clay, Obsidian, Geode]
 type Cost = [(Int, Resource)]
 type Blueprint = Map Resource Cost
+type Materials = Map Resource Int
+gotNothing :: Materials
+gotNothing = Map.fromList $ zip allResources (repeat 0)
+
+type Robots = Map Resource Int -- OK this is asking for trouble
+justOneOreRobot :: Robots
+justOneOreRobot = Map.fromList $ (Ore,1) : zip [Clay, Obsidian, Geode] (repeat 0)
+
+canAffordRobot :: Blueprint -> Resource -> Materials -> Bool
+canAffordRobot blueprint resource availableMaterial =
+  let canAffordPart (howMany, r) = howMany < (availableMaterial ! r)
+  in all canAffordPart (blueprint ! resource)
+
+waysToBuildRobot :: Blueprint -> Materials -> [(Resource, Materials)]
+waysToBuildRobot blueprint availableMaterial =
+  let allRobotKinds = allResources
+      affordableRobots = filter (\r -> canAffordRobot blueprint r availableMaterial) allRobotKinds :: [Resource]
+  in map (\r -> (r, Map.unionWith (-) availableMaterial (Map.fromList (map swap (blueprint ! r))))) affordableRobots
+
 
 
 doPart1 :: String -> Int
