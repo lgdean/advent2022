@@ -15,12 +15,16 @@ data Expr = Simple Int | Figure Op String String deriving (Show)
 
 type MonkeyJobs = Map String Expr
 
+monkeyYells :: MonkeyJobs -> String -> Int
+monkeyYells jobs var =
+  calculate jobs $ jobs ! var
+
 -- can be this simple for now; no concept of waiting
 calculate :: MonkeyJobs -> Expr -> Int
 calculate _ (Simple x) = x
 calculate jobs (Figure op x y) =
-  let xVal = calculate jobs $ jobs ! x
-      yVal = calculate jobs $ jobs ! y
+  let xVal = monkeyYells jobs x
+      yVal = monkeyYells jobs y
   in operate op xVal yVal
 
 operate :: Op -> Int -> Int -> Int
@@ -34,7 +38,7 @@ doPart1 input =
   let allLines = lines input
       monkeyBusiness = map parseLine allLines
       monkeyJobs = Map.fromList monkeyBusiness
-      answer = calculate monkeyJobs $ monkeyJobs ! "root"
+      answer = monkeyYells monkeyJobs "root"
   in answer
 
 doPart2 :: String -> Int
