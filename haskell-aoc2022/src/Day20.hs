@@ -2,6 +2,7 @@ module Day20
     (
       doPart1,
       doPart2,
+      mixFile,
       readAndMixFile
     ) where
 

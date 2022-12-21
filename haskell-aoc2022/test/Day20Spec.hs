@@ -21,10 +21,19 @@ spec = do
       doPart1 input `shouldBe` 5962
 
   describe "Part 2" $ do
+    it "can mix file one time as in given example, with correct first item" $ do
+      input <- readFile "inputs/day20-example"
+      let numbers = map ((* 811589153) . read) $ lines input :: [Int]
+      mixFile numbers `shouldBe` [0, -2434767459, 3246356612, -1623178306, 2434767459, 1623178306, 811589153]
+
+    it "can mix second time" $ do
+      let numbers = [0, -2434767459, 3246356612, -1623178306, 2434767459, 1623178306, 811589153]
+      mixFile numbers `shouldBe` [0, 2434767459, 1623178306, 3246356612, -2434767459, -1623178306, 811589153]
+
     it "can handle given example" $ do
       pending
       input <- readFile "inputs/day20-example"
-      doPart2 input `shouldBe` undefined
+      doPart2 input `shouldBe` 1623178306
 
     it "can solve Part 2" $ do
       pending
