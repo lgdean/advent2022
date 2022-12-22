@@ -1,6 +1,8 @@
 module Lib
     ( readIntLines
     , parseChunks
+    , strip
+    , mapSnd
     , fixedPoint
     , bin2Int
     , divisibleBy
@@ -8,6 +10,7 @@ module Lib
 
 import Data.Char(digitToInt)
 import Data.List.Split (splitOn)
+import qualified Data.Text as T
 
 readIntLines :: [Char] -> [Int]
 readIntLines = map read . lines
@@ -18,6 +21,13 @@ parseChunks chunkParser input =
   let allLines = lines input
       chunks = splitOn [""] allLines
   in map chunkParser chunks
+
+strip :: String -> String
+strip  = T.unpack . T.strip . T.pack
+
+-- apparently not in Data.Tuple, ok
+mapSnd :: (b -> c) -> [(a,b)] -> [(a,c)]
+mapSnd f = map (\(x,y) -> (x, f y))
 
 fixedPoint :: Eq a => (a -> a) -> a -> a
 fixedPoint f initState =
