@@ -23,10 +23,12 @@ spec = do
   describe "Part 2" $ do
     it "can handle given example" $ do
       pending
-      input <- readFile "inputs/day22-example"
-      doPart2 input `shouldBe` undefined
+      input <- readFile "inputs/day22-example-map"
+      password <- readFile "inputs/day22-example-password"
+      doPart2 input password `shouldBe` 5031
 
     it "can solve Part 2" $ do
       pending
-      input <- readFile "inputs/day22"
-      doPart2 input `shouldBe` 0
+      input <- readFile "inputs/day22-map"
+      password <- readFile "inputs/day22-password"
+      doPart2 input password `shouldBe` 0

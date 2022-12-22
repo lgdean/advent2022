@@ -68,10 +68,13 @@ doPart1 boardLayout password =
       (((column, row),_), facing) = last allPositions
   in 1000 * row + 4 * column + answerValFor facing
 
-doPart2 :: String -> Int
-doPart2 input =
-  let _allLines = lines input
-  in 0
+doPart2 :: String -> String -> Int
+doPart2 boardLayout password =
+  let allLines = lines boardLayout
+      boardRows = zipWith parseLine [1..] allLines :: Board
+      edgeLength = minimum $ map length boardRows
+      _path = parsePath $ strip password
+  in trace (show edgeLength) 0
 
 
 parseLine :: Int -> String -> [(Coord, Tile)]
