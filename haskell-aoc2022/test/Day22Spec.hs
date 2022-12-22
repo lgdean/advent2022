@@ -18,7 +18,7 @@ spec = do
       -- puzzle board map is 150x200
       input <- readFile "inputs/day22-map"
       password <- readFile "inputs/day22-password"
-      doPart1 input password `shouldBe` 0
+      doPart1 input password `shouldBe` 1484
 
   describe "Part 2" $ do
     it "can handle given example" $ do
