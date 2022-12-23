@@ -78,9 +78,14 @@ doPart1 input =
 
 doPart2 :: String -> Int
 doPart2 input =
-  let _allLines = lines input
-  in 0
-
+  let allLines = lines input
+      -- starting with (1,1) just because yesterday's puzzle did
+      elfRows = zipWith parseLine [1..] allLines
+      elfScan = Set.fromList $ concat elfRows :: ElfSetup
+      initDirOrder = [North, South, West, East]
+      dirOrders = iterate nextDirOrder initDirOrder
+      manyRounds = scanl doRound elfScan dirOrders
+  in roundWithNoChange 1 manyRounds
 
 parseLine :: Int -> String -> [Coord]
 parseLine y input =
@@ -100,3 +105,10 @@ neighborCoords (x,y) =
 nextDirOrder :: [a] -> [a]
 nextDirOrder [] = error "oh no I made a bug"
 nextDirOrder (d:ds) = ds ++ [d]
+
+roundWithNoChange :: Eq a => Int -> [a] -> Int
+roundWithNoChange x [] = x -- or error
+roundWithNoChange x [_] = x -- or error
+roundWithNoChange x (a:b:rest)
+  | a == b = x
+  | otherwise = roundWithNoChange (x+1) (b:rest)

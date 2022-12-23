@@ -18,11 +18,9 @@ spec = do
 
   describe "Part 2" $ do
     it "can handle given example" $ do
-      pending
       input <- readFile "inputs/day23-example"
-      doPart2 input `shouldBe` undefined
+      doPart2 input `shouldBe` 20
 
     it "can solve Part 2" $ do
-      pending
       input <- readFile "inputs/day23"
-      doPart2 input `shouldBe` 0
+      doPart2 input `shouldBe` 970
