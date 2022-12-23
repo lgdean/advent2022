@@ -8,8 +8,6 @@ import Data.Maybe (catMaybes)
 import Data.Set (Set, size)
 import qualified Data.Set as Set
 
-import Debug.Trace (trace)
-
 data Dir = North | South | East | West deriving (Eq, Show)
 type Coord = (Int, Int)
 type ElfSetup = Set Coord
@@ -61,7 +59,7 @@ nEmptyGroundTiles elves =
       maxY = maximum $ Set.map snd elves
       rectWidth = maxX - minX + 1
       rectHeight = maxY - minY + 1
-      rectArea = trace (show $ zip ["width", "height"] [rectWidth, rectHeight]) $ rectWidth * rectHeight
+      rectArea = rectWidth * rectHeight
   in rectArea - size elves
 
 doPart1 :: String -> Int
