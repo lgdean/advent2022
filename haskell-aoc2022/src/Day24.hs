@@ -69,8 +69,16 @@ doPart1 input =
 
 doPart2 :: String -> Int
 doPart2 input =
-  let _allLines = lines input
-  in 0
+  let allLines = lines input
+      height = length allLines - 2
+      valleyRowsPlusWalls = take height $ tail allLines
+      width = length (head valleyRowsPlusWalls) - 2
+      valleyRows = map (take width . tail) valleyRowsPlusWalls
+      expeditionDest = (width-1, height-1) -- and then you can exit the following minute yay!
+      firstRoundResult = 1 + howLongFromTo valleyRows (0,-1) expeditionDest 1
+      secondRoundResult = firstRoundResult + howLongFromTo valleyRows (width-1, height) (0,0) firstRoundResult
+      thirdRoundResult = secondRoundResult + howLongFromTo valleyRows (0,-1) expeditionDest secondRoundResult
+  in thirdRoundResult
 
 howLongFromTo :: Valley -> Coord -> Coord -> Int -> Int
 howLongFromTo valleyRows start expeditionDest startMinute =
