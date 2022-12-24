@@ -8,8 +8,6 @@ import Data.List (elemIndices, findIndices, transpose)
 import Data.Set (Set)
 import qualified Data.Set as Set
 
-import Debug.Trace (trace)
-
 data Dir = North | South | East | West deriving (Eq, Show)
 type Coord = (Int, Int)
 type Valley = [[Char]] -- for now
