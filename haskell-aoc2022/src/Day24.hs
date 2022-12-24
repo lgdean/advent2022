@@ -42,9 +42,8 @@ freeOfRowBlizzardsGeneral (incChar, decChar) valleyRows minute (x,y) =
       isWithinValley = 0 <= x && x < width && 0 <=y && y < height
       rightBlizzards = blizzardsInit incChar (valleyRows !! y)
       leftBlizzards = blizzardsInit decChar (valleyRows !! y)
-      -- there is surely a simpler way to do this math
-      freeOfRight = x `Set.notMember` Set.map (\a -> (a + minute) `mod` width) rightBlizzards
-      freeOfLeft = x `Set.notMember` Set.map (\a -> (a - minute) `mod` width) leftBlizzards
+      freeOfRight = ((x - minute) `mod` width) `Set.notMember` rightBlizzards
+      freeOfLeft = ((x + minute) `mod` width) `Set.notMember` leftBlizzards
   in isWithinValley && freeOfRight && freeOfLeft
 
 freeOfRowBlizzards :: Valley -> Int -> Coord -> Bool
