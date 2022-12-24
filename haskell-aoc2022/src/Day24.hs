@@ -63,14 +63,18 @@ doPart1 input =
       valleyRowsPlusWalls = take height $ tail allLines
       width = length (head valleyRowsPlusWalls) - 2
       valleyRows = map (take width . tail) valleyRowsPlusWalls
-      expeditionStart = Set.singleton (0,-1)
       expeditionDest = (width-1, height-1) -- and then you can exit the following minute yay!
-      roundResults = scanl (doRound valleyRows) expeditionStart [1..] :: [Set Coord]
-      justBeforeSuccess = findIndices (expeditionDest `Set.member`) roundResults
---  in trace (show $ zip ["width", "height"] [width, height]) $ 1 + head justBeforeSuccess
-  in trace (show valleyRows) $ 1 + head justBeforeSuccess
+      justBeforeSuccess = howLongFromTo valleyRows (0,-1) expeditionDest 1
+  in 1 + justBeforeSuccess
 
 doPart2 :: String -> Int
 doPart2 input =
   let _allLines = lines input
   in 0
+
+howLongFromTo :: Valley -> Coord -> Coord -> Int -> Int
+howLongFromTo valleyRows start expeditionDest startMinute =
+  let expeditionStart = Set.singleton start
+      roundResults = scanl (doRound valleyRows) expeditionStart [startMinute..] :: [Set Coord]
+      success = findIndices (expeditionDest `Set.member`) roundResults
+  in head success
