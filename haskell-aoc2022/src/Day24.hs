@@ -27,7 +27,7 @@ moveOne West (x,y) = (x-1,y)
 isPositionOpen :: Valley -> Int -> Coord -> Bool
 isPositionOpen _ _ (0,-1) = True -- starting position is always OK
 isPositionOpen valleyRows minute (x,y)
-  | length valleyRows == y && length (head valleyRows) == x+1 = True -- goal position is always ok
+  | length valleyRows == y && length (head valleyRows) == x+1 = True -- goal position is always OK
   | otherwise =
       freeOfRowBlizzards valleyRows minute (x,y) && freeOfColumnBlizzards valleyRows minute (x,y)
 
