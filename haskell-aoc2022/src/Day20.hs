@@ -15,15 +15,18 @@ mixFile nums =
 
 mixRemaining :: Int -> Int-> Int -> [(Int, Int)] -> [(Int, Int)]
 mixRemaining _ 0 _ theList =
-  let (after, before) = break ((==0) . snd) theList
-  in before ++ after
+  theList
 mixRemaining currIndex howManyMore totalSize theList =
   let (after, (curr,_):before) = break ((==currIndex) . snd) theList
+      (_, theHeadIndex) = head theList
+      (_, theSecondIndex) = head $ tail theList
       almostNewList = before ++ after
       howFarMove = curr `mod` (totalSize - 1)
       (newBefore, newAfter) = splitAt howFarMove almostNewList
       newList = newBefore ++ (curr, currIndex) : newAfter
-  in mixRemaining (currIndex+1) (howManyMore-1) totalSize newList
+      newHeadIndex = if theHeadIndex == currIndex && howFarMove /= 0 then theSecondIndex else theHeadIndex
+      newListAdjusted = take totalSize $ dropWhile ((/= newHeadIndex) . snd) $ cycle newList
+  in mixRemaining (currIndex+1) (howManyMore-1) totalSize newListAdjusted
 
 readAndMixFile :: String -> [Int]
 readAndMixFile input =
