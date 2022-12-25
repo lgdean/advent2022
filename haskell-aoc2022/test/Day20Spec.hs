@@ -27,11 +27,9 @@ spec = do
       mixFile 1 numbers `shouldBe` [0, -2434767459, 3246356612, -1623178306, 2434767459, 1623178306, 811589153]
 
     it "can handle given example" $ do
-      pending
       input <- readFile "inputs/day20-example"
       doPart2 input `shouldBe` 1623178306
 
     it "can solve Part 2" $ do
-      pending
       input <- readFile "inputs/day20"
-      doPart2 input `shouldBe` 0
+      doPart2 input `shouldBe` 9862431387256

@@ -52,5 +52,7 @@ doPart1 input =
 
 doPart2 :: String -> Int
 doPart2 input =
-  let _allLines = lines input
-  in 0
+  let allLines = lines input
+      numbers = map ((* 811589153) . read) allLines :: [Int]
+      mixResult = mixFile 10 numbers
+  in answerFrom mixResult
