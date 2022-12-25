@@ -11,7 +11,9 @@ mixFile :: Int -> [Int] -> [Int]
 mixFile howManyTimes nums =
   let initState = zip nums [0..]
       toProcess = length nums
-  in map fst $ mixRemaining 0 toProcess toProcess initState
+      doMixing = mixRemaining 0 toProcess toProcess
+      thisTimeResult = doMixing initState
+  in map fst thisTimeResult
 
 mixRemaining :: Int -> Int-> Int -> [(Int, Int)] -> [(Int, Int)]
 mixRemaining _ 0 _ theList =
