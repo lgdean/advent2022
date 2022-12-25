@@ -24,7 +24,7 @@ spec = do
     it "can mix file one time as in given example, with correct first item" $ do
       input <- readFile "inputs/day20-example"
       let numbers = map ((* 811589153) . read) $ lines input :: [Int]
-      mixFile numbers `shouldBe` [0, -2434767459, 3246356612, -1623178306, 2434767459, 1623178306, 811589153]
+      mixFile 1 numbers `shouldBe` [0, -2434767459, 3246356612, -1623178306, 2434767459, 1623178306, 811589153]
 
     it "can handle given example" $ do
       pending

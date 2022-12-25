@@ -7,8 +7,8 @@ module Day20
     ) where
 
 -- may not be the right representation, but let's start there
-mixFile :: [Int] -> [Int]
-mixFile nums =
+mixFile :: Int -> [Int] -> [Int]
+mixFile howManyTimes nums =
   let initState = zip nums [0..]
       toProcess = length nums
   in map fst $ mixRemaining 0 toProcess toProcess initState
@@ -32,7 +32,7 @@ readAndMixFile :: String -> [Int]
 readAndMixFile input =
   let allLines = lines input
       numbers = map read allLines :: [Int]
-  in mixFile numbers
+  in mixFile 1 numbers
 
 answerFrom :: [Int] -> Int
 answerFrom mixedFile =
@@ -45,7 +45,7 @@ doPart1 :: String -> Int
 doPart1 input =
   let allLines = lines input
       numbers = map read allLines :: [Int]
-      firstMix = mixFile numbers
+      firstMix = mixFile 1 numbers
   in answerFrom firstMix
 
 doPart2 :: String -> Int
